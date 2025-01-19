@@ -1,1 +1,0 @@
-key = '1LPRC0FOQsMHxS8AqByRIJHXPtg7RiTa'
