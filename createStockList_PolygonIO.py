@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[6]:
+# In[1]:
 
 
 #######################################################################################################
@@ -17,7 +17,7 @@
 #######################################################################################################
 
 
-# In[7]:
+# In[2]:
 
 
 import csv, datetime, logging, os, pickle
@@ -30,7 +30,7 @@ from ignore import settings
 key = settings.key
 
 
-# In[9]:
+# In[3]:
 
 
 # Set variable and file path for use in testing or deployment
@@ -41,7 +41,12 @@ key = settings.key
 
 ##############
 
-logging.basicConfig(filename = loggingFile.ConfigureLoggingFile('CreateStockLists_Log.txt') +                     '/CreateStockLists_Log.txt', level = logging.DEBUG,                     format = '%(asctime)s - %(levelname)s - %(message)s')
+#logging.basicConfig(filename = loggingFile.ConfigureLoggingFile('createStockLists_Log.txt') + \
+#                    '/createStockLists_Log.txt', level = logging.DEBUG, \
+#                    format = '%(asctime)s - %(levelname)s - %(message)s')
+
+logging.basicConfig(filename = loggingFile.ConfigureLoggingFile('StockList_Log.txt'),
+                    level = logging.DEBUG, format = '%(asctime)s - %(levelname)s - %(message)s')
 
 logging.info('Logging configured')
 
@@ -67,6 +72,7 @@ for ex in exchange_list:
 
     for t in client_RESTClient.list_tickers(market='stocks', exchange = ex):
         active_tickers.append(t.ticker)
+        logging.info(f'Exchange: {ex}, ticker: {t.ticker}, counter: {i}')
         i+=1
         sleep(20)
 
