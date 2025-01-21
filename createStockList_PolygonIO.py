@@ -65,26 +65,24 @@ logging.info(f'Active US stock exchange data acquired, cleaned, and saved')
 
 
 active_tickers = []
+i = 0
 
-for ex in exchange_list:
-    i = 0
-    print(ex)
+exchange_today = exchange_list[datetime.datetime.today().day%4]
 
-    for t in client_RESTClient.list_tickers(market='stocks', exchange = ex):
+print('Let"s go go go!')
+for t in client_RESTClient.list_tickers(market='stocks', exchange = exchange_today):
+    try:
         active_tickers.append(t.ticker)
-        logging.info(f'Exchange: {ex}, ticker: {t.ticker}, counter: {i}')
+        logging.info(f'Exchange: {exchange_today}, ticker: {t.ticker}, counter: {i}')
         i+=1
         sleep(20)
 
-    #file_name = ex + i
-    #saveData.WriteToPickle(file_name)
-    print(f'i: {i}')
+    except Exception as e:
+        logging.info('/\/\/\/\/\/\/\/\/\/\/Main exception: {e}/\/\/\/\/\/\/\/\/\/\/')
 
 
-# In[48]:
-
-
-saveData.WriteToPickle('stockList', active_tickers)
+file_name = exchange_today + '_StockList_' + i
+saveData.WriteToPickle(file_name, active_tickers)
 
 
 # In[ ]:
