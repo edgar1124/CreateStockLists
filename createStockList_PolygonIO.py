@@ -78,9 +78,10 @@ for t in client_RESTClient.list_tickers(market='stocks', exchange = exchange_tod
         sleep(20)
 
     except Exception as e:
-        logging.info('/\/\/\/\/\/\/\/\/\/\/Main exception: {e}/\/\/\/\/\/\/\/\/\/\/')
+        logging.info(f'/\/\/\/\/\/\/\/\/\/\/Main exception: {e}/\/\/\/\/\/\/\/\/\/\/')
 
 
+logging.info('/\/\/\/\/\/\/\/\/\/\/Stock list compiled/\/\/\/\/\/\/\/\/\/\/')
 file_name = exchange_today + '_StockList_' + i
 saveData.WriteToPickle(file_name, active_tickers)
 
