@@ -25,7 +25,7 @@ import pandas as pd
 from polygon import RESTClient
 from time import sleep
 
-from functions import exchangeData, loggingFile, readData, saveData
+from functions import emailTool, exchangeData, loggingFile, readData, saveData
 from ignore import settings
 key = settings.key
 
@@ -71,11 +71,22 @@ exchange_today = exchange_list[datetime.datetime.today().day%4]
 
 print('Let"s go go go!')
 for t in client_RESTClient.list_tickers(market='stocks', exchange = exchange_today):
+    logging.info(f'/\/\/\/\/\/\/\/\/\/\/Beginning to process: {t}/\/\/\/\/\/\/\/\/\/\/')
+    
     try:
         active_tickers.append(t.ticker)
         logging.info(f'Exchange: {exchange_today}, ticker: {t.ticker}, counter: {i}')
         i+=1
         sleep(20)
+
+        if i%100 == 0:
+                    
+            try:
+                emailTool.SendEmail(f'Exchange: {exchange_today}, ticker: {t.ticker}, counter: {i}')
+                
+            except Exception as e:
+                logging.info(f'/\/\/\/\/\/\/\/\/\/\/Main exception: {e}/\/\/\/\/\/\/\/\/\/\/')
+
 
     except Exception as e:
         logging.info(f'/\/\/\/\/\/\/\/\/\/\/Main exception: {e}/\/\/\/\/\/\/\/\/\/\/')
@@ -84,10 +95,4 @@ for t in client_RESTClient.list_tickers(market='stocks', exchange = exchange_tod
 logging.info('/\/\/\/\/\/\/\/\/\/\/Stock list compiled/\/\/\/\/\/\/\/\/\/\/')
 file_name = exchange_today + '_StockList_' + i
 saveData.WriteToPickle(file_name, active_tickers)
-
-
-# In[ ]:
-
-
-
 
