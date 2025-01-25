@@ -25,6 +25,7 @@ def GetData ():
                           'XBOS', 'XCHI', 'XISE', 'XCIS', 'XPHL', None]
 
   # ARCX, XASE, XNAS, XNYS are active echanges
+  # ARCX may be only ETFs
 
   for inactive in inactive_exchanges:
     try:
