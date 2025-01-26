@@ -45,8 +45,9 @@ key = settings.key
 #                    '/createStockLists_Log.txt', level = logging.DEBUG, \
 #                    format = '%(asctime)s - %(levelname)s - %(message)s')
 
-logging.basicConfig(filename = loggingFile.ConfigureLoggingFile('StockList_Log.txt'),
-                    level = logging.DEBUG, format = '%(asctime)s - %(levelname)s - %(message)s')
+filename_logging = loggingFile.ConfigureLoggingFile('StockList_Log.txt')
+
+logging.basicConfig(filename = filename_logging, level = logging.DEBUG, format = '%(asctime)s - %(levelname)s - %(message)s')
 
 logging.info('Logging configured')
 
@@ -79,22 +80,15 @@ try:
             i+=1
             sleep(20)
 
-            if i%100 == 0:
-                        
-                try:
-                    emailTool.SendEmail(f'Processed: {i}')
-                    
-                except Exception as e:
-                    logging.info(f'/\/\/\/\/\/\/\/\/\/\/Email exception: {e}/\/\/\/\/\/\/\/\/\/\/')
-
-
         except Exception as e:
-            logging.info(f'/\/\/\/\/\/\/\/\/\/\/Main exception: {e}/\/\/\/\/\/\/\/\/\/\/')
+            logging.info(f'/\/\/\/\/\/\/\/\/\/\/Loop exception: {e}/\/\/\/\/\/\/\/\/\/\/')
 
 except Exception as E:
     logging.info(f'/\/\/\/\/\/\/\/\/\/\/Main exception: {e}/\/\/\/\/\/\/\/\/\/\/')
 
 logging.info('/\/\/\/\/\/\/\/\/\/\/Stock list compiled/\/\/\/\/\/\/\/\/\/\/')
 file_name = exchange_today + '_StockList_' + i
-saveData.WriteToPickle(file_name, active_tickers)
+filename_pickle = filename_logging.replace('StockList_Log.txt', file_name)
+saveData.WriteToPickle(filename_pickle, active_tickers)
+logging.info('/\/\/\/\/\/\/\/\/\/\/Stock data saved to pickle/\/\/\/\/\/\/\/\/\/\/')
 
