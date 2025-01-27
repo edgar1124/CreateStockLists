@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[1]:
+# In[4]:
 
 
 #######################################################################################################
@@ -17,7 +17,7 @@
 #######################################################################################################
 
 
-# In[2]:
+# In[5]:
 
 
 import csv, datetime, logging, os, pickle
@@ -30,7 +30,7 @@ from ignore import settings
 key = settings.key
 
 
-# In[3]:
+# In[6]:
 
 
 # Set variable and file path for use in testing or deployment
@@ -52,7 +52,7 @@ logging.basicConfig(filename = filename_logging, level = logging.DEBUG, format =
 logging.info('Logging configured')
 
 
-# In[4]:
+# In[7]:
 
 
 
@@ -83,12 +83,23 @@ try:
         except Exception as e:
             logging.info(f'/\/\/\/\/\/\/\/\/\/\/Loop exception: {e}/\/\/\/\/\/\/\/\/\/\/')
 
-except Exception as E:
+except Exception as e:
     logging.info(f'/\/\/\/\/\/\/\/\/\/\/Main exception: {e}/\/\/\/\/\/\/\/\/\/\/')
 
 logging.info('/\/\/\/\/\/\/\/\/\/\/Stock list compiled/\/\/\/\/\/\/\/\/\/\/')
-file_name = exchange_today + '_StockList_' + i
-filename_pickle = filename_logging.replace('StockList_Log.txt', file_name)
-saveData.WriteToPickle(filename_pickle, active_tickers)
-logging.info('/\/\/\/\/\/\/\/\/\/\/Stock data saved to pickle/\/\/\/\/\/\/\/\/\/\/')
+
+try:
+    file_name = exchange_today + '_StockList_' + str(i)
+    filename_pickle = filename_logging.replace('StockList_Log.txt', file_name)
+    saveData.WriteToPickle(filename_pickle, active_tickers)
+    logging.info('/\/\/\/\/\/\/\/\/\/\/Stock data saved to pickle/\/\/\/\/\/\/\/\/\/\/')
+
+except Exception as e:
+    logging.info(f'/\/\/\/\/\/\/\/\/\/\/Save file exception: {e}/\/\/\/\/\/\/\/\/\/\/')
+
+
+# In[ ]:
+
+
+
 
